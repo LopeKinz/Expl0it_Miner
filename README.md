@@ -11,3 +11,7 @@ Rename the txt to file.txt
 Copy the file into the expl0it_miner folder
 
 have fun
+
+
+DISCLAIMER 
+Its not done yet lmao
