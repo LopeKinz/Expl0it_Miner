@@ -1,5 +1,7 @@
 # Expl0it_Miner
 
+install with pip3 install -r requirements.txt
+
 Download http://alladdresses.loyce.club/all_Bitcoin_addresses_ever_used_sorted.txt.gz
 
 Unzip
