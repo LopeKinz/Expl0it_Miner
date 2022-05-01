@@ -1,0 +1,4 @@
+colorama
+bitcoin
+bit
+requests
