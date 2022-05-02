@@ -1,5 +1,7 @@
 from colorama import init, Fore, Back, Style
 
+init(convert=True)
+
 bal = "balance"
 
 def print_results(address, results):
