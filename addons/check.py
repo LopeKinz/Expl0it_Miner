@@ -1,18 +1,22 @@
 import requests
+import json
 
 s = requests.Session()
 
 l = "balance"
 maintance = "BitcoinChain.com is under maintenance."
-
+hit = 0
 def check_adress(address):
-    try:
         wallet = s.get(f"https://api-r.bitcoinchain.com/v1/address/{address}", stream = True)
-        response = wallet.text
-        if l in response:
-            return(response)
+        lol = wallet.text
+        ls = json.loads(lol)
+        if l in lol:
+            f = open("hits.txt", "a")
+            f.write(lol + "\n")
+            f.close()
+            for balance in ls:
+                money = balance["balance"]
+            return(f"{address} is valid. wit the balance of {money}")
         else:
             return(0)
-    except:
-        return("maintance")
-    
+
