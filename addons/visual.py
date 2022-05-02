@@ -1,15 +1,19 @@
 from colorama import init, Fore, Back, Style
 
+bal = "balance"
+
 def print_results(address, results):
     if results == 0:
         print(f"{Fore.RED}[-]{Style.RESET_ALL} {address} : {Fore.RED}Not found{Style.RESET_ALL}")
-    else:
-        if results == "maintance":
+    if results == 1:
+        print(f"{Fore.YELLOW}[~]{Style.RESET_ALL} {address} : {Fore.YELLOW}Found but no Balance{Style.RESET_ALL}")
+    if results == "maintance":
             print(f"{Fore.RED}[!]{Style.RESET_ALL} API is under maintenance.")
             input("Press Enter to continue...")
-        else:
-            print(f"{Fore.GREEN}[+]{Style.RESET_ALL} {address} | {results}")
-
+    if bal in str(results):
+        print(f"{Fore.GREEN}[+]{Style.RESET_ALL} {address} |{Fore.GREEN} {results}")
+    else:
+        pass
         
 
 
