@@ -16,7 +16,7 @@ def check_adress(address):
             f.close()
             for balance in ls:
                 money = balance["balance"]
-            return(f"{address} is valid. wit the balance of {money}")
+            return(f"{address} is valid. With the balance of {money}")
         else:
             return(0)
 
