@@ -38,14 +38,17 @@ def f():
 def prem():
     premi = checkhwid()
     if premi == True:
-        print("Loading file.txt...")
-        with open("file.txt", "r") as infile:
-            while True:
-                for line in infile:
-                    a = line.replace("\r", "")
-                    b = a.replace("\n", "")
-                    check_results = check.check_adress(b)
-                    visual.print_results(b, check_results)
+        try:
+            print("Loading file.txt...")
+            with open("file.txt", "r") as infile:
+                while True:
+                    for line in infile:
+                        a = line.replace("\r", "")
+                        b = a.replace("\n", "")
+                        check_results = check.check_adress(b)
+                        visual.print_results(b, check_results)
+        except:
+            print("Error while loading file.txt")
     if premi == False:
         print("You are not premium")
     else:
