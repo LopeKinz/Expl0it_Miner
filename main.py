@@ -1,29 +1,89 @@
 from colorama import init, Fore, Back, Style
-from addons import generate
-from addons import check
-from addons import visual
+from addons import generate, check, visual
 import time
+from tkinter import * 
+import os
+import subprocess
+import requests
+import webbrowser
+
+w = Tk()
+
+def callback(url):
+    webbrowser.open_new(url)
+
+def getLisencekey():
+    if os.name == 'nt':
+        hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
+        return hwid
+    else:
+        return("Error while getting Windows HWID")
 
 
-visual.main_menu()
-print(Fore.GREEN + "Expl0it Miner v1.0 BETA by legendpinkyhax#1694")
-print(Fore.GREEN + "Only Gen and Check are working at the moment.") 
-time.sleep(1)
-input = input("Check file or generate new adress [1/2]: ")
+def checkhwid():
+        res = requests.get('https://pastebin.com/raw/sZ123VPy')
+        hwid = getLisencekey()
+        if hwid in res.text:
+            return True
+        else:
+            return False
 
-if input == "1":
-    visual.main_menu()
-    print("Loading file.txt...")
-    with open("file.txt", "r") as infile:
-        while True:
-            for line in infile:
-                a = line.replace("\r", "")
-                b = a.replace("\n", "")
-                check_results = check.check_adress(b)
-                visual.print_results(b, check_results)
-if input == "2":
+
+def f():
     while True:
         adress = generate.gen_adress()
         check_results = check.check_adress(adress)
         visual.print_results(adress, check_results)
+
+def prem():
+    premi = checkhwid()
+    if premi == True:
+        print("Loading file.txt...")
+        with open("file.txt", "r") as infile:
+            while True:
+                for line in infile:
+                    a = line.replace("\r", "")
+                    b = a.replace("\n", "")
+                    check_results = check.check_adress(b)
+                    visual.print_results(b, check_results)
+    if premi == False:
+        print("You are not premium")
+    else:
+        print(premi)
+
+def prem_stuff():
+    premi = checkhwid()
+    if premi == True:
+        try:
+            os.system("python premium_tools.py")
+        except:
+            os.system("python3 premium_tools.py")
+    if premi == False:
+        print("You are not premium")
+    else:
+        print(premi)
+
+def gui():
+    w.wm_iconbitmap('EXM.ico')
+    w.title("Exploit Miner")
+    title1 = Label(w, text="Expl0it Miner", font=("Terminal"))
+    title1.config(font=("Courier", 44))
+    install_requirements = Button(w, text="Free Miner", command = f)
+    startapi_btn = Button(w, text = "Premium Miner", command = prem)
+    stuff = Button(w, text= ("Premium Tools"), command = prem_stuff)
+    hwid = Label (w, text = "HWID: " + getLisencekey() + '\n' + 'Premium: ' + str(checkhwid()))
+    credit = Label(w, text="By Pinkyhax & Banhammer")
+    discord = Label(w, text="Buy Premium Here : https://discord.gg/gWHyq7B7ss", fg="blue", cursor="hand2")
+    title1.pack()
+    install_requirements.pack()
+    startapi_btn.pack()
+    stuff.pack()
+    hwid.pack()
+    discord.pack()
+    credit.pack()
+    discord.bind("<Button-1>", lambda e: callback("https://discord.gg/gWHyq7B7ss"))
+    w.mainloop()
+
+
+gui()
 

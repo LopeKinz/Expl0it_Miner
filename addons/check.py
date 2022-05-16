@@ -12,22 +12,12 @@ def check_adress(address):
         lol = wallet.text
         ls = json.loads(lol)
         if l in lol:
+            f = open("hits.txt", "a")
+            f.write(lol + "\n")
+            f.close()
             for balance in ls:
                 money = balance["balance"]
-                text = ""
-                f = open("hits.txt", "a")
-                if not money == 0:
-                    if money >= 0.0001:
-                        text = "  good wallet"
-                    elif money >= 1:
-                        text = "  great wallet"
-                    elif money >= 10:
-                        text = "  ledger or cold wallet"
-                    elif money <= 0.0001:
-                        text = "  decent wallet"
-                    data = (str(address)+"   "+str(money)+"        "+str(text))
-                    f.write(str(data) + "\n")
-                    f.close()
+                if money > 0:
                     return(f"{address} is valid. With the balance of {money} BTC")
                 else:
                     return(1)
@@ -35,3 +25,4 @@ def check_adress(address):
             return(0)
     except:
         return(maintance)
+
