@@ -16,9 +16,9 @@ if os.name == 'nt':
 else:
         print("Error while getting Windows HWID")
 
-        res = requests.get('https://pastebin.com/raw/sZ123VPy')
-        hwid = getLisencekey()
-        if hwid in res.text:
+res = requests.get('https://pastebin.com/raw/sZ123VPy')
+hwid = getLisencekey()
+if hwid in res.text:
             class Menu:
                 def __init__(self):
                     self.fileName = "config.txt" 
