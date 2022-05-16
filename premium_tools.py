@@ -7,6 +7,8 @@ import sys
 import subprocess
 import requests
 
+init(convert=True)
+
 version = "v2.0"
 
 ctypes.windll.kernel32.SetConsoleTitleW(f"BanHammer Toolkit {version} Made By BanHammer Team!")

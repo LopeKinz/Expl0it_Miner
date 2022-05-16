@@ -7,6 +7,8 @@ import subprocess
 import requests
 import webbrowser
 
+init(convert=True)
+
 w = Tk()
 
 def callback(url):
