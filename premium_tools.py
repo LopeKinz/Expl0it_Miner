@@ -102,7 +102,7 @@ if hwid in res.text:
             if __name__ == '__main__':
                 menu = Menu()
                 menu.main()
-        else:
-            print("Invalid License Key")
+else:
+    print("Invalid License Key")
 
 
