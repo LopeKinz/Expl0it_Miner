@@ -28,7 +28,7 @@ class NetvarsManager:
         ) + 0x2B + client_handle.lpBaseOfDll)
         self._client_classes = all_classes
         self._handle = pm
-        self._netvars_dict = dict()
+        self._netvars_dict = {}
         self._dump_netvars_internal()
 
     def get_netvar(
@@ -43,7 +43,7 @@ class NetvarsManager:
         :param prop_name: Name of the prop you want to get.
         :return: Prop's offset.
         """
-        return self._netvars_dict.get(table_name, dict()).get(prop_name)
+        return self._netvars_dict.get(table_name, {}).get(prop_name)
 
     def dump_netvars(self, out_file=sys.stdout, json_format=False) -> None:
         """Dumps netvars, in a plain or json format. If you want to save dump
@@ -75,7 +75,7 @@ class NetvarsManager:
             if prop_name.isnumeric():  # Some shitty prop.
                 continue
             prop_offest = prop.get_offset()
-            table_existed_data = self._netvars_dict.get(table_name, dict())
+            table_existed_data = self._netvars_dict.get(table_name, {})
             table_existed_data.update({prop_name: prop_offest})
             self._netvars_dict.update(
                 {table_name: table_existed_data}

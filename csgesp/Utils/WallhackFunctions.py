@@ -8,12 +8,10 @@ import time
 
 def SetEntityGlow(pm, entity_hp, entity_team_id, entity_dormant, localTeam, glow_manager, entity_glow, eteam, health, color):
     if health:
-        if entity_hp > 50 and not entity_hp == 100:
+        if entity_hp > 50 and entity_hp != 100:
             r, g, b = 255, 165, 0
         elif entity_hp < 50:
             r, g, b = 255, 0, 0
-        elif entity_hp == 100 and entity_team_id == 2:
-            r, g, b = 0, 255, 0
         else:
             r, g, b = 0, 255, 0
     else:

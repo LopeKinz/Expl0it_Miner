@@ -14,8 +14,6 @@ def print_results(address, results):
             input("Press Enter to continue...")
     if bal in str(results):
         print(f"{Fore.GREEN}[+]{Style.RESET_ALL} {address} |{Fore.GREEN} {results}")
-    else:
-        pass
         
 
 

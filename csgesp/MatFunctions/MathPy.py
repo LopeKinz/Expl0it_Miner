@@ -8,23 +8,11 @@ from Utils.Offsets import *
 
 
 def checkangles(x, y):
-    if x > 89:
-        return False
-    elif x < -89:
-        return False
-    elif y > 360:
-        return False
-    elif y < -360:
-        return False
-    else:
-        return True
+    return x <= 89 and x >= -89 and y <= 360 and y >= -360
 
 
 def nanchecker(first, second):
-    if isnan(first) or isnan(second):
-        return False
-    else:
-        return True
+    return not isnan(first) and not isnan(second)
 
 
 def normalizeAngles(angle: Vec3):
@@ -76,14 +64,12 @@ def CalcDistance(current: Vec3, new: Vec3):
     if distance.y < 0.0:
         distance.y = -distance.y
 
-    mag = sqrt(distance.x * distance.x + distance.y * distance.y)
-    return mag
+    return sqrt(distance.x * distance.x + distance.y * distance.y)
 
 
 def checkindex(pm, engine):
     clientstate = pm.read_uint(engine + dwClientState)
-    id = pm.read_uint(clientstate + dwClientState_GetLocalPlayer)
-    return id
+    return pm.read_uint(clientstate + dwClientState_GetLocalPlayer)
 
 
 def GetBestTarget(pm, client, engine, localPlayer, spotted, baim, aimfov, random):
@@ -101,11 +87,7 @@ def GetBestTarget(pm, client, engine, localPlayer, spotted, baim, aimfov, random
                 entity_hp = pm.read_uint(entity + m_iHealth)
                 entity_dormant = pm.read_uint(entity + m_bDormant)
                 entity_team = pm.read_uint(entity + m_iTeamNum)
-                if spotted:
-                    Entspotted = pm.read_uint(entity + m_bSpottedByMask)
-                else:
-                    Entspotted = True
-
+                Entspotted = pm.read_uint(entity + m_bSpottedByMask) if spotted else True
                 if entity_hp > 0 and not entity_dormant and Entspotted and entity_team != player_team:
                     localAngle = Vec3(0, 0, 0)
                     localAngle.x = pm.read_float(engine_pointer + dwClientState_ViewAngles)
@@ -135,10 +117,7 @@ def GetBestTarget(pm, client, engine, localPlayer, spotted, baim, aimfov, random
                         olddist = newdist
                         target = entity
                         targetpos = entitypos
-        if target is not None:
-            return target, localpos, targetpos
-        else:
-            return None, None, None
+        return (None, None, None) if target is None else (target, localpos, targetpos)
 
 
 def smoothing(t):

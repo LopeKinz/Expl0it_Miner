@@ -9,5 +9,4 @@ def gen_priv_adress():
 def gen_adress():
     private_key = random_key()
     public_key = privtopub(private_key)
-    address = pubtoaddr(public_key)
-    return address
+    return pubtoaddr(public_key)

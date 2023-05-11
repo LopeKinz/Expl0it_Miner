@@ -21,7 +21,7 @@ def close():
 def clear():
     if sys.platform.startswith("win"):
         os.system('cls')
-    elif sys.platform == 'linux' or 'darwin':
+    else:
         os.system('clear')
 
 class colors:
@@ -54,7 +54,6 @@ class LIE:
                 data = json.load(body)
                 print(f'{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} Ratelimited Sleeping For {colors.red}{data["retry_after"]}{colors.reset}')
                 time.sleep(data["retry_after"])
-                pass
         except:
             pass
 
@@ -63,9 +62,8 @@ class LIE:
                           
 
 def splash():
-    logo = (f"""{colors.reset}
-    """)
-    return logo
+    return f"""{colors.reset}
+    """
 
 def dmall():
     headers = {
@@ -220,27 +218,24 @@ def create_guilds(token):
     namez = input(f'{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} GUILD NAMES{colors.red}: {colors.reset}')
     guilicon = input(f'{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} GUILD ICON(MUST BE A URL) or None{colors.red}: {colors.reset}')
     amount = input(f'{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} GUILD AMOUNT{colors.red}: {colors.reset}')
-    if guilicon == 'None':
+    if (
+        guilicon == 'None'
+        or guilicon != 'None'
+        and not guilicon.startswith('https://')
+    ):
         payload = {
             'name': namez,
             'region': 'europe',
             'icon': None,
-            'channels': None
-        }
-    elif guilicon.startswith('https://'):
-        payload = {
-            'name': namez,
-            'region': 'europe',
-            'icon': f'{guilicon}',
             'channels': None
         }
     else:
         payload = {
             'name': namez,
             'region': 'europe',
-            'icon': None,
+            'icon': f'{guilicon}',
             'channels': None
-        } 
+        }
     for i in range(int(amount)):
         try:
             r = requests.post('https://discord.com/api/v6/guilds',
@@ -249,7 +244,7 @@ def create_guilds(token):
             print(f"{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} CREATED {colors.red}{namez}{colors.reset} ({colors.red}{i}{colors.reset})")
         except:
             pass
-        LIE.ratelimit(status=r.status_code, body=r.json()) 
+        LIE.ratelimit(status=r.status_code, body=r.json())
     input(f'{colors.red}[{colors.reset}{ok}{colors.red}]{colors.reset} Press Enter To Go Back To The Main Menu')
     lie()
 

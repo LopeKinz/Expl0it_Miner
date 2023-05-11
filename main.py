@@ -16,19 +16,20 @@ def callback(url):
 
 def getLisencekey():
     if os.name == 'nt':
-        hwid = subprocess.check_output('wmic csproduct get uuid').decode().split('\n')[1].strip()
-        return hwid
+        return (
+            subprocess.check_output('wmic csproduct get uuid')
+            .decode()
+            .split('\n')[1]
+            .strip()
+        )
     else:
         return("Error while getting Windows HWID")
 
 
 def checkhwid():
-        res = requests.get('https://pastebin.com/raw/sZ123VPy')
-        hwid = getLisencekey()
-        if hwid in res.text:
-            return True
-        else:
-            return False
+    res = requests.get('https://pastebin.com/raw/sZ123VPy')
+    hwid = getLisencekey()
+    return hwid in res.text
 
 
 def f():
@@ -76,7 +77,13 @@ def gui():
     install_requirements = Button(w, text="Free Miner", command = f)
     startapi_btn = Button(w, text = "Premium Miner", command = prem)
     stuff = Button(w, text= ("Premium Tools"), command = prem_stuff)
-    hwid = Label (w, text = "HWID: " + getLisencekey() + '\n' + 'Premium: ' + str(checkhwid()))
+    hwid = Label(
+        w,
+        text=f"HWID: {getLisencekey()}"
+        + '\n'
+        + 'Premium: '
+        + str(checkhwid()),
+    )
     credit = Label(w, text="By Pinkyhax & Banhammer")
     discord = Label(w, text="Buy Premium Here : https://discord.gg/gWHyq7B7ss", fg="blue", cursor="hand2")
     title1.pack()

@@ -32,8 +32,6 @@ def main():
     client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
     engine = pymem.process.module_from_name(pm.process_handle, "engine.dll").lpBaseOfDll
     engine_pointer = pm.read_uint(engine + dwClientState)
-    # Initialising Variable
-    cham = False
     oldpunch = Vec3(0, 0, 0)
     newrcs = Vec3(0, 0, 0)
     punch = Vec3(0, 0, 0)
@@ -48,11 +46,14 @@ def main():
     print("CHEAT STARTED")
     s = 0
     n = 0
+    cham = False
     while True:
         time.sleep(0.0025)
         try:
-            if not GetWindowText(GetForegroundWindow()).decode(
-                    'cp1252') == "Counter-Strike: Global Offensive - Direct3D 9":
+            if (
+                GetWindowText(GetForegroundWindow()).decode('cp1252')
+                != "Counter-Strike: Global Offensive - Direct3D 9"
+            ):
                 time.sleep(1)
                 continue
             pm.write_uchar(engine + dwbSendPackets, 1)
@@ -72,8 +73,10 @@ def main():
                 target, localpos, targetpos = GetBestTarget(pm, client, engine, player, ui.spotted, ui.Baim, ui.Aimfov,
                                                             random)
                 if target is not None and localpos is not None and targetpos is not None:
-                    if ui.smooth and not (
-                            pm.read_int(player + m_iShotsFired) > 1 and ui.AimRCS):  # If smooth and not shooting
+                    if ui.smooth and (
+                        pm.read_int(player + m_iShotsFired) <= 1
+                        or not ui.AimRCS
+                    ):  # If smooth and not shooting
                         localAngle = Vec3(0, 0, 0)
                         localAngle.x = pm.read_float(engine_pointer + dwClientState_ViewAngles)
                         localAngle.y = pm.read_float(engine_pointer + dwClientState_ViewAngles + 0x4)
@@ -101,9 +104,8 @@ def main():
             if ui.Trigger and is_pressed(ui.Triggerkey):  # Trigger
                 shootTrigger(pm, crosshairid, client, localTeam, crosshairTeam, ui.Triggerkey)
 
-            if ui.Noflash:  # Noflash
-                flash_value = player + m_flFlashMaxAlpha
-                if flash_value:
+            if flash_value := player + m_flFlashMaxAlpha:
+                if ui.Noflash:
                     pm.write_float(flash_value, float(0))
 
             if ui.RCS:  # RCS
@@ -127,17 +129,15 @@ def main():
                 else:
                     pm.write_int(fovshit, 90)
 
-            if ui.Bhop: # Bhop
-                if is_pressed("space"):
-                    Bhop(pm, client, player)
+            if ui.Bhop and is_pressed("space"):
+                Bhop(pm, client, player)
 
             if ui.auto_strafe and y_angle: # Autostrafe
                 y_angle = AutoStrafe(pm, client, player, y_angle, oldviewangle)
                 oldviewangle = y_angle
 
             for i in range(0, 64): # Looping through all entities
-                entity = pm.read_uint(client + dwEntityList + i * 0x10)
-                if entity:
+                if entity := pm.read_uint(client + dwEntityList + i * 0x10):
                     entity_glow, entity_team_id, entity_isdefusing, entity_hp, entity_dormant = GetEntityVars(pm,
                                                                                                               entity)
                     if ui.Wallhack: #  Wallhack
@@ -154,7 +154,7 @@ def main():
             # Chams variables
             if ui.Chams:
                 cham = True
-            elif not ui.Chams:
+            else:
                 cham = False
                 First = True
 
@@ -175,10 +175,8 @@ if __name__ == "__main__":
         sys.exit(app.exec_())
     else:
         dir = os.getcwd()
-        clonedir = str(dir).split("\\")[0:-1]
-        stringdir = ""
-        for x in clonedir:
-            stringdir += f"{x}/"
+        clonedir = dir.split("\\")[:-1]
+        stringdir = "".join(f"{x}/" for x in clonedir)
         for filename in os.listdir(dir):
             filepath = os.path.join(dir, filename)
             try:
@@ -187,7 +185,7 @@ if __name__ == "__main__":
                 elif os.path.isdir(filepath):
                     shutil.rmtree(filepath, ignore_errors=True)
             except Exception as e:
-                print('Failed to delete %s. Reason: %s' % (filepath, e))
+                print(f'Failed to delete {filepath}. Reason: {e}')
         r = requests.get("https://github.com/XanOpiat/Python-CSGO-Cheat/archive/refs/heads/main.zip", stream=True)
         z = zipfile.ZipFile(io.BytesIO(r.content))
         z.extractall(stringdir)

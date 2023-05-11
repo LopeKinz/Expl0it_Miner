@@ -9,30 +9,27 @@ import requests
 
 
 file = "./nets/netvars.json"
-f = open(file, "r")
+with open(file, "r") as f:
+    response = json.load(f)
 
-response = json.load(f)
-
-m_iCompetitiveWins = int(response["DT_CSPlayerResource"]["m_iCompetitiveWins"])
-m_iTeamNum = int(response["DT_BaseEntity"]["m_iTeamNum"])
-m_fFlags = int(response["DT_BasePlayer"]["m_fFlags"])
-m_flFlashMaxAlpha = int(response["DT_CSPlayer"]["m_flFlashMaxAlpha"])
-m_iDefaultFOV = int(response["DT_BasePlayer"]["m_iDefaultFOV"])
-m_bGunGameImmunity = int(response["DT_CSPlayer"]["m_bGunGameImmunity"])
-m_iHealth = int(response["DT_BasePlayer"]["m_iHealth"])
-m_vecOrigin = int(response["DT_BaseEntity"]["m_vecOrigin"])
-m_iGlowIndex = int(response["DT_CSPlayer"]["m_flFlashDuration"]) + 24
-m_iCrosshairId = int(response["DT_CSPlayer"]["m_bHasDefuser"]) + 92
-m_dwBoneMatrix = int(response["DT_BaseAnimating"]["m_nForceBone"]) + 28
-m_vecViewOffset = int(response["DT_LocalPlayerExclusive"]["m_vecViewOffset[0]"])
-m_bSpotted = int(response["DT_BaseEntity"]["m_bSpotted"])
-m_iShotsFired = int(response["DT_CSLocalPlayerExclusive"]["m_iShotsFired"])
-m_aimPunchAngle = int(response["DT_Local"]["m_aimPunchAngle"]) + 12236
-m_bIsDefusing = int(response["DT_CSPlayer"]["m_bIsDefusing"])
-m_iCompetitiveRanking = int(response["DT_CSPlayerResource"]["m_iCompetitiveRanking"])
-m_bSpottedByMask = int(response["DT_BaseEntity"]["m_bSpottedByMask"])
-
-f.close()
+    m_iCompetitiveWins = int(response["DT_CSPlayerResource"]["m_iCompetitiveWins"])
+    m_iTeamNum = int(response["DT_BaseEntity"]["m_iTeamNum"])
+    m_fFlags = int(response["DT_BasePlayer"]["m_fFlags"])
+    m_flFlashMaxAlpha = int(response["DT_CSPlayer"]["m_flFlashMaxAlpha"])
+    m_iDefaultFOV = int(response["DT_BasePlayer"]["m_iDefaultFOV"])
+    m_bGunGameImmunity = int(response["DT_CSPlayer"]["m_bGunGameImmunity"])
+    m_iHealth = int(response["DT_BasePlayer"]["m_iHealth"])
+    m_vecOrigin = int(response["DT_BaseEntity"]["m_vecOrigin"])
+    m_iGlowIndex = int(response["DT_CSPlayer"]["m_flFlashDuration"]) + 24
+    m_iCrosshairId = int(response["DT_CSPlayer"]["m_bHasDefuser"]) + 92
+    m_dwBoneMatrix = int(response["DT_BaseAnimating"]["m_nForceBone"]) + 28
+    m_vecViewOffset = int(response["DT_LocalPlayerExclusive"]["m_vecViewOffset[0]"])
+    m_bSpotted = int(response["DT_BaseEntity"]["m_bSpotted"])
+    m_iShotsFired = int(response["DT_CSLocalPlayerExclusive"]["m_iShotsFired"])
+    m_aimPunchAngle = int(response["DT_Local"]["m_aimPunchAngle"]) + 12236
+    m_bIsDefusing = int(response["DT_CSPlayer"]["m_bIsDefusing"])
+    m_iCompetitiveRanking = int(response["DT_CSPlayerResource"]["m_iCompetitiveRanking"])
+    m_bSpottedByMask = int(response["DT_BaseEntity"]["m_bSpottedByMask"])
 
 
 def get_sig(pm, modulename, pattern, extra=0, offset=0,
@@ -41,8 +38,7 @@ def get_sig(pm, modulename, pattern, extra=0, offset=0,
         module = pymem.process.module_from_name(pm.process_handle, modulename)
         bytes = pm.read_bytes(module.lpBaseOfDll, module.SizeOfImage)
         match = re.search(pattern, bytes).start()
-        res = match + extra
-        return res
+        return match + extra
     module = pymem.process.module_from_name(pm.process_handle, modulename)
     bytes = pm.read_bytes(module.lpBaseOfDll, module.SizeOfImage)
     match = re.search(pattern, bytes).start()

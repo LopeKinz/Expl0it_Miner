@@ -188,11 +188,7 @@ def sherlock(username, site_data, query_notify,
 
     # Limit number of workers to 20.
     # This is probably vastly overkill.
-    if len(site_data) >= 20:
-        max_workers = 20
-    else:
-        max_workers = len(site_data)
-
+    max_workers = min(len(site_data), 20)
     # Create multi-threaded session for all requests.
     session = SherlockFuturesSession(max_workers=max_workers,
                                      session=underlying_session)
@@ -204,10 +200,7 @@ def sherlock(username, site_data, query_notify,
     for social_network, net_info in site_data.items():
 
         # Results from analysis of this specific site
-        results_site = {}
-
-        # Record URL of main site
-        results_site["url_main"] = net_info.get("urlMain")
+        results_site = {"url_main": net_info.get("urlMain")}
 
         # A user agent is needed because some sites don't return the correct
         # information since they think that we are bots (Which we actually are...)
@@ -217,7 +210,7 @@ def sherlock(username, site_data, query_notify,
 
         if "headers" in net_info:
             # Override/append any extra headers required by a given site.
-            headers.update(net_info["headers"])
+            headers |= net_info["headers"]
 
         # URL of user on site (if it exists)
         url = interpolate_string(net_info["url"], username)
@@ -277,16 +270,7 @@ def sherlock(username, site_data, query_notify,
                     # not respond properly unless we request the whole page.
                     request = session.get
 
-            if net_info["errorType"] == "response_url":
-                # Site forwards request to a different URL if username not
-                # found.  Disallow the redirect so we can capture the
-                # http status from the original URL request.
-                allow_redirects = False
-            else:
-                # Allow whatever redirect that the site wants to do.
-                # The final result of the request will be what is available.
-                allow_redirects = True
-
+            allow_redirects = net_info["errorType"] != "response_url"
             # This future starts running the request in a new thread, doesn't block the main thread
             if proxy is not None:
                 proxies = {"http": proxy, "https": proxy}
@@ -401,8 +385,7 @@ def sherlock(username, site_data, query_notify,
                                      url,
                                      QueryStatus.AVAILABLE,
                                      query_time=response_time)
-            # Checks if the status code of the response is 2XX
-            elif not r.status_code >= 300 or r.status_code < 200:
+            elif r.status_code < 300 or r.status_code < 200:
                 result = QueryResult(username,
                                      social_network,
                                      url,

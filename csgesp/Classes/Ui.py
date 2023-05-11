@@ -116,14 +116,14 @@ class Ui_MainWindow(object):
         config["Legit"] = {
             "Legit": self.legitvar
         }
-        self.filename = self.lineEdit_9.text() + ".ini"
+        self.filename = f"{self.lineEdit_9.text()}.ini"
         with open(f"./Configs/{self.filename}", "w+") as configfile:
             config.write(configfile)
         self.label_14.setText(self.lineEdit_9.text())
 
     def loadConfig(self):
         config = configparser.ConfigParser()
-        self.filename = self.lineEdit_10.text() + ".ini"
+        self.filename = f"{self.lineEdit_10.text()}.ini"
         self.filepath = f"./Configs/{self.filename}"
         if os.path.isfile(self.filepath):
             config.read(self.filepath)
@@ -168,7 +168,7 @@ class Ui_MainWindow(object):
             ctypes.windll.user32.MessageBoxW(0, "No file with this name exists", "Wrong File Error", 1)
 
     def saveConfig(self):
-        self.filename = self.lineEdit_11.text() + ".ini"
+        self.filename = f"{self.lineEdit_11.text()}.ini"
         if os.path.isfile(f"./Configs/{self.filename}"):
             try:
                 self.update()
@@ -216,7 +216,6 @@ class Ui_MainWindow(object):
                 self.label_14.setText(self.lineEdit_11.text())
             except Exception as e:
                 print(e)
-                pass
         else:
             ctypes.windll.user32.MessageBoxW(0, "Create a new config file first", "This file doesnt exist", 1)
 
@@ -288,13 +287,21 @@ class Ui_MainWindow(object):
                     self.random = 5 + (int(self.lineEdit_7.text()) / 5)
                 else:
                     ctypes.windll.user32.MessageBoxW(0, "Please enter a value from 0 to 100", "Error in Config", 0)
-            if self.Aimbot and not (is_key(self.Aimbotkey) or is_mouse(self.Aimbotkey)):
+            if (
+                self.Aimbot
+                and not is_key(self.Aimbotkey)
+                and not is_mouse(self.Aimbotkey)
+            ):
                 ctypes.windll.user32.MessageBoxW(0, "Please enter an valid Aimbot Key", "Error in Config", 0)
             if self.Silentaim and not self.Aimbot:
                 ctypes.windll.user32.MessageBoxW(0, "Select Aimbot if you wanna use Silentaim", "Error in Config", 0)
-            if self.Trigger and not (is_key(self.Triggerkey) or is_mouse(self.Triggerkey)):
+            if (
+                self.Trigger
+                and not is_key(self.Triggerkey)
+                and not is_mouse(self.Triggerkey)
+            ):
                 ctypes.windll.user32.MessageBoxW(0, "Please select a correct Triggerbotkey", "Error in Config", 0)
-            if self.Fov and not (is_key(self.Fovkey) or is_mouse(self.Fovkey)):
+            if self.Fov and not is_key(self.Fovkey) and not is_mouse(self.Fovkey):
                 ctypes.windll.user32.MessageBoxW(0, "Please select a correct Fovkey", "Error in Config", 0)
             self.label_14.setText("None/Unsaved")
             update = False
