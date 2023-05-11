@@ -229,12 +229,23 @@ class QueryNotifyPrint(QueryNotify):
 
         elif result.status == QueryStatus.UNKNOWN:
             if self.print_all:
-                print(Style.BRIGHT + Fore.WHITE + "[" +
-                      Fore.RED + "-" +
-                      Fore.WHITE + "]" +
-                      Fore.GREEN + f" {self.result.site_name}:" +
-                      Fore.RED + f" {self.result.context}" +
-                      Fore.YELLOW + f" ")
+                print(
+                    (
+                        Style.BRIGHT
+                        + Fore.WHITE
+                        + "["
+                        + Fore.RED
+                        + "-"
+                        + Fore.WHITE
+                        + "]"
+                        + Fore.GREEN
+                        + f" {self.result.site_name}:"
+                        + Fore.RED
+                        + f" {self.result.context}"
+                        + Fore.YELLOW
+                        + " "
+                    )
+                )
 
         elif result.status == QueryStatus.ILLEGAL:
             if self.print_all:

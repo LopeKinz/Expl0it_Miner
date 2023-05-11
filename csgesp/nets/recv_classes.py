@@ -45,9 +45,7 @@ class RecvTable:
         """Returns prop by the given index."""
         props_addr = self._handle.read_int(self._start_addr)
         prop_addr = props_addr + 0x3C * index
-        if not prop_addr:
-            return None
-        return RecvProp(prop_addr, self._handle)
+        return None if not prop_addr else RecvProp(prop_addr, self._handle)
 
 
 class ClientClass:

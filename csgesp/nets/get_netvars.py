@@ -5,8 +5,7 @@ class get_netvars():
     def __init__(self, pm):
 
         netvars_manager = NetvarsManager(pm)
-        out_file = "./nets/netvars.json"
-        if out_file:
+        if out_file := "./nets/netvars.json":
             with open(out_file, 'w+') as fp:
 
                 netvars_manager.dump_netvars(

@@ -26,79 +26,79 @@ print("")
 n = int(nn)
 
 if t == "minecraft":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(4)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(4)}-{g(4)}")
+
 if t == "paypal":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(4)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(4)}-{g(4)}")
+
 if t == "playstation":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(4)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(4)}-{g(4)}")
+
 if t == "amazon":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(6)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(6)}-{g(4)}")
+
 if t == "netflix":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(6)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(6)}-{g(4)}")
+
 if t == "steam":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(6)+"-"+g(5))
-		
+		print(f"{g(4)}-{g(6)}-{g(5)}")
+
 if t == "fortnite":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(5)+"-"+g(4)+"-"+g(4))
-		
+		print(f"{g(5)}-{g(4)}-{g(4)}")
+
 if t == "robolox":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(3)+"-"+g(3)+"-"+g(4))
-		
+		print(f"{g(3)}-{g(3)}-{g(4)}")
+
 if t == "itunes":
-	for x in range(n):
+	for _ in range(n):
 		print("")
 		print(g(16))
-		
+
 if t == "ebay":
-	for x in range(n):
+	for _ in range(n):
 		print("")
 		print(g(10))
-		
+
 if t == "imvu":
-	for x in range(n):
+	for _ in range(n):
 		print("")
 		print(g(10))
-		
+
 if t == "webkinz":
-	for x in range(n):
+	for _ in range(n):
 		print("")
 		print(g(8))
-		
+
 if t == "pokemontgc":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(3)+"-"+g(4)+"-"+g(3)+"-"+g(3))
-		
+		print(f"{g(3)}-{g(4)}-{g(3)}-{g(3)}")
+
 if t == "playstore":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(4)+"-"+g(4)+"-"+g(4)+"-"+g(4)+"-"+g(4))
-		
+		print(f"{g(4)}-{g(4)}-{g(4)}-{g(4)}-{g(4)}")
+
 if t == "xbox":
-	for x in range(n):
+	for _ in range(n):
 		print("")
-		print(g(5)+"-"+g(5)+"-"+g(5)+"-"+g(5)+"-"+g(5))
+		print(f"{g(5)}-{g(5)}-{g(5)}-{g(5)}-{g(5)}")
 
 print("")
 print("-----Generation completed-----")

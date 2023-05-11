@@ -49,17 +49,15 @@ def strtobool(string):
 
 
 def is_key(string):
-    if keyboard.is_modifier(string) or (string.isalpha() and len(string) == 1) or string == "space":
-        return True
-    else:
-        return False
+    return bool(
+        keyboard.is_modifier(string)
+        or (string.isalpha() and len(string) == 1)
+        or string == "space"
+    )
 
 def is_mouse(string):
     list = ["left", "right", "middle", "wheel", "mouse4", "mouse5"]
-    if string in list:
-        return True
-    else:
-        return False
+    return string in list
 
 def is_pressed(key):
     if is_key(key):

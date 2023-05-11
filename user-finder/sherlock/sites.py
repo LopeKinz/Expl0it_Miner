@@ -117,7 +117,10 @@ class SitesInformation():
         if not data_file_path.lower().endswith(".json"):
             raise FileNotFoundError(f"Incorrect JSON file extension for data file '{data_file_path}'.")
 
-        if "http://"  == data_file_path[:7].lower() or "https://" == data_file_path[:8].lower():
+        if (
+            data_file_path[:7].lower() == "http://"
+            or data_file_path[:8].lower() == "https://"
+        ):
             # Reference is to a URL.
             try:
                 response = requests.get(url=data_file_path)
@@ -126,17 +129,16 @@ class SitesInformation():
                                         f"data file URL '{data_file_path}':  "
                                         f"{str(error)}"
                                        )
-            if response.status_code == 200:
-                try:
-                    site_data = response.json()
-                except Exception as error:
-                    raise ValueError(f"Problem parsing json contents at "
-                                     f"'{data_file_path}':  {str(error)}."
-                                    )
-            else:
+            if response.status_code != 200:
                 raise FileNotFoundError(f"Bad response while accessing "
                                         f"data file URL '{data_file_path}'."
                                        )
+            try:
+                site_data = response.json()
+            except Exception as error:
+                raise ValueError(f"Problem parsing json contents at "
+                                 f"'{data_file_path}':  {str(error)}."
+                                )
         else:
             # Reference is to a file.
             try:
@@ -159,7 +161,7 @@ class SitesInformation():
             try:
 
                 self.sites[site_name] = \
-                    SiteInformation(site_name,
+                        SiteInformation(site_name,
                                     site_data[site_name]["urlMain"],
                                     site_data[site_name]["url"],
                                     site_data[site_name]["username_claimed"],
@@ -184,9 +186,7 @@ class SitesInformation():
         List of strings containing names of sites.
         """
 
-        site_names = sorted([site.name for site in self], key=str.lower)
-
-        return site_names
+        return sorted([site.name for site in self], key=str.lower)
 
     def __iter__(self):
         """Iterator For Object.

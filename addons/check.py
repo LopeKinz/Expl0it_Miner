@@ -11,18 +11,17 @@ def check_adress(address):
         wallet = s.get(f"https://api-r.bitcoinchain.com/v1/address/{address}", stream = True)
         lol = wallet.text
         ls = json.loads(lol)
-        if l in lol:
-            f = open("hits.txt", "a")
-            f.write(lol + "\n")
-            f.close()
-            for balance in ls:
-                money = balance["balance"]
-                if money > 0:
-                    return(f"{address} is valid. With the balance of {money} BTC")
-                else:
-                    return(1)
-        else:
+        if l not in lol:
             return(0)
+        with open("hits.txt", "a") as f:
+            f.write(lol + "\n")
+        for balance in ls:
+            money = balance["balance"]
+            return (
+                f"{address} is valid. With the balance of {money} BTC"
+                if money > 0
+                else 1
+            )
     except:
         return(maintance)
 
